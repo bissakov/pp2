@@ -9,5 +9,4 @@ class Solution(object):
         for i in range(0,len(s)):
         	pr *= int(s[i])
         	sm += int(s[i])
-        	print(str(pr) + " " + str(sm) + "\n")
         return pr - sm
