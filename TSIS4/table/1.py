@@ -8,25 +8,25 @@ all_lines = "".join(f.readlines())
 company_name = re.search(r"ДУБЛИКАТ\n(.+)\n", all_lines).group(1)
 bin_number = re.search(r"БИН (\d+)",all_lines).group(1)
 znm_number = re.search(r"ЗНМ: (\w+)",all_lines).group(1)
-kassa = re.search(r"Касса (\d+-\d+)",all_lines).group(1)
-check_number = re.search(r"Чек (№\d+)",all_lines).group(1)
+cashbox = re.search(r"Касса (\d+-\d+)",all_lines).group(1)
+receipt_number = re.search(r"Чек (№\d+)",all_lines).group(1)
 
-item_name = re.findall(r"\d+\.\n(.+)\n",all_lines)
+product_name = re.findall(r"\d+\.\n(.+)\n",all_lines)
 
-price_for_one = re.findall(r"\d,\d+ x (.+),\d+",all_lines)
+unit_price = re.findall(r"\d,\d+ x (.+),\d+",all_lines)
 
 amount = re.findall(r"(\d),\d+ x .+,\d+",all_lines)
 
-full_price = re.findall(r"Стоимость\n(.+,).+",all_lines)
+full_price = re.findall(r"Стоимость\n(.+),.+",all_lines)
 
 items = re.findall(r'\d+\.\n([^\n]+)\n([0-9, ]+) x ([0-9, ]+)\n([0-9, ]+)', all_lines)
 
-for i in range(0,len(price_for_one)):
-    if price_for_one[i].find(" ") or full_price[i].find(" "):
-        price_for_one[i] = price_for_one[i].replace(" ","")
+for i in range(0,len(unit_price)):
+    if unit_price[i].find(" ") or full_price[i].find(" "):
+        unit_price[i] = unit_price[i].replace(" ","")
         full_price[i] = full_price[i].replace(" ","")
 
-print(company_name,bin_number,znm_number,kassa,check_number,item_name,price_for_one,amount,full_price, sep="\n\n")
+print(company_name,bin_number,znm_number,cashbox,receipt_number,product_name,unit_price,amount,full_price, sep="\n\n")
 
 csv.excel.delimiter = ","
 csv.excel.lineterminator = "\n"
@@ -34,8 +34,8 @@ csv.excel.lineterminator = "\n"
 with open("table.csv", "w", encoding="cp1251") as f2:
     writer = csv.writer(f2, csv.excel)
     writer.writerow(["Bin Number","ZNM Number","Cashbox Number","Receipt Number","Company Name", "Product Name", "Unit Price", "Amount", "Full Price"])
-    for i in range(0,len(item_name)):
-        writer.writerow([bin_number,znm_number,kassa,check_number,company_name,item_name[i],price_for_one[i],amount[i],full_price[i]])
+    for i in range(0,len(product_name)):
+        writer.writerow([bin_number,znm_number,cashbox,receipt_number,company_name,product_name[i],unit_price[i],amount[i],full_price[i]])
     
 
 with open('table.csv', 'r', encoding='cp1251') as f2:
