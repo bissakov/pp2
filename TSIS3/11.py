@@ -1,7 +1,7 @@
 #Задача №3764. Частотный анализ
 #https://informatics.mccme.ru/mod/statements/view.php?id=4535&chapterid=3764#1
 
-tekeyst='''hi
+text='''hi
 hi
 what is your name
 my name is bond
@@ -11,23 +11,22 @@ van damme
 claude van damme
 jean claude van damme'''
 
-tekeyst = tekeyst.replace("\n"," ")
+text = text.replace("\n"," ")
 
-a = list(set(tekeyst.split(" ")))
+a = list(set(text.split(" ")))
 keys = []
 vals = []
 
 for i in range(0,len(a)):
-	keys.append(str(tekeyst.count(a[i])))
+	keys.append(str(text.count(a[i])))
 	vals.append(a[i])
-
-print(keys)
-print(vals)
 
 zipped_pairs1 = zip(keys, vals)
  
 x = [i for _, i in sorted(zipped_pairs1)]
 y = sorted(keys)
 
-for i in reversed(range(0,len(x))):
-	print(x[i] + " " + y[i])
+for i in reversed(range(0,len(y))):
+	for j in reversed(range(0,len(x))):
+		if int(y[j]) > int(y[j - 1])
+	#print(x[i] + " " + y[i])
