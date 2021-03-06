@@ -19,14 +19,16 @@ amount = re.findall(r"(\d),\d+ x .+,\d+",all_lines)
 
 full_price = re.findall(r"Стоимость\n(.+),.+",all_lines)
 
-items = re.findall(r'\d+\.\n([^\n]+)\n([0-9, ]+) x ([0-9, ]+)\n([0-9, ]+)', all_lines)
+time = re.search(r"Время: (.+)",all_lines).group(1)
+
+address = re.search(r"г\..+",all_lines).group()
 
 for i in range(0,len(unit_price)):
     if unit_price[i].find(" ") or full_price[i].find(" "):
         unit_price[i] = unit_price[i].replace(" ","")
         full_price[i] = full_price[i].replace(" ","")
 
-print(company_name,bin_number,znm_number,cashbox,receipt_number,product_name,unit_price,amount,full_price, sep="\n\n")
+print(company_name,bin_number,znm_number,cashbox,receipt_number,product_name,unit_price,amount,full_price,address,time, sep="\n\n")
 
 csv.excel.delimiter = ","
 csv.excel.lineterminator = "\n"
@@ -35,7 +37,7 @@ with open("table.csv", "w", encoding="cp1251") as f2:
     writer = csv.writer(f2, csv.excel)
     writer.writerow(["Bin Number","ZNM Number","Cashbox Number","Receipt Number","Company Name", "Product Name", "Unit Price", "Amount", "Full Price"])
     for i in range(0,len(product_name)):
-        writer.writerow([bin_number,znm_number,cashbox,receipt_number,company_name,product_name[i],unit_price[i],amount[i],full_price[i]])
+        writer.writerow([bin_number,znm_number,cashbox,receipt_number,company_name,product_name[i],unit_price[i],amount[i],full_price[i],address,time])
     
 
 with open('table.csv', 'r', encoding='cp1251') as f2:
