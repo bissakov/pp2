@@ -34,6 +34,7 @@ csv.excel.lineterminator = "\n"
 with open("table.csv", "w", encoding="cp1251") as f2:
     writer = csv.writer(f2, csv.excel)
     writer.writerow(["Bin Number","ZNM Number","Cashbox Number","Receipt Number","Company Name", "Product Name", "Unit Price", "Amount", "Full Price"])
+    writer.writerow([bin_number,znm_number,kassa,check_number,company_name,item_name,price_for_one,amount,full_price])
     
 
 with open('table.csv', 'r', encoding='cp1251') as f2:
