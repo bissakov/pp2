@@ -3,27 +3,27 @@ import csv
 
 f = open("raw.txt", "r", encoding="utf-8")
 
-all_lines = "".join(f.readlines())
+raw = "".join(f.readlines())
 
-company_name = re.search(r"ДУБЛИКАТ\n(.+)\n", all_lines).group(1)
-bin_number = re.search(r"БИН (\d+)",all_lines).group(1)
-znm_number = re.search(r"ЗНМ: (\w+)",all_lines).group(1)
-cashbox = re.search(r"Касса (\d+-\d+)",all_lines).group(1)
-receipt_number = re.search(r"Чек (№\d+)",all_lines).group(1)
+company_name = re.search(r"ДУБЛИКАТ\n(.+)\n", raw).group(1)
+bin_number = re.search(r"БИН (\d+)",raw).group(1)
+znm_number = re.search(r"ЗНМ: (\w+)",raw).group(1)
+cashbox = re.search(r"Касса (\d+-\d+)",raw).group(1)
+receipt_number = re.search(r"Чек (№\d+)",raw).group(1)
 
-product_name = re.findall(r"\d+\.\n(.+)\n",all_lines)
+product_name = re.findall(r"\d+\.\n(.+)\n",raw)
 
-unit_price = re.findall(r"\d,\d+ x (.+),\d+",all_lines)
+unit_price = re.findall(r"\d,\d+ x (.+),\d+",raw)
 
-amount = re.findall(r"(\d),\d+ x .+,\d+",all_lines)
+amount = re.findall(r"(\d),\d+ x .+,\d+",raw)
 
-full_price = re.findall(r"Стоимость\n(.+),.+",all_lines)
+full_price = re.findall(r"Стоимость\n(.+),.+",raw)
 
-time = re.search(r"Время: (.+)",all_lines).group(1)
+time = re.search(r"Время: (.+)",raw).group(1)
 
-address = re.search(r"г\..+",all_lines).group()
+address = re.search(r"г\..+",raw).group()
 
-total = re.search(r"ИТОГО:\n(.+),.+",all_lines).group(1)
+total = re.search(r"ИТОГО:\n(.+),.+",raw).group(1)
 total = total.replace(" ","")
 
 for i in range(0,len(unit_price)):
