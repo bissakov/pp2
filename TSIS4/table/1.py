@@ -28,7 +28,7 @@ for i in range(0,len(price_for_one)):
 
 print(company_name,bin_number,znm_number,kassa,check_number,item_name,price_for_one,amount,full_price, sep="\n\n")
 
-csv.excel.delimiter = ";"
+csv.excel.delimiter = ","
 csv.excel.lineterminator = "\n"
 
 with open("table.csv", "w", encoding="cp1251") as f2:
