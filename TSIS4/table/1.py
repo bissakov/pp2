@@ -28,12 +28,12 @@ for i in range(0,len(price_for_one)):
 
 print(company_name,bin_number,znm_number,kassa,check_number,item_name,price_for_one,amount,full_price, sep="\n\n")
 
-csv.excel.delimiter = ","
+csv.excel.delimiter = ";"
 csv.excel.lineterminator = "\n"
 
 with open("table.csv", "w", encoding="cp1251") as f2:
     writer = csv.writer(f2, csv.excel)
-    writer.writerows(["Company Name", "Bin Number", "Product Name", "Unit Price", "Amount", "Full Price"])
+    writer.writerow(["Company Name", "Bin Number", "Product Name", "Unit Price", "Amount", "Full Price"])
     
 
 with open('table.csv', 'r', encoding='cp1251') as f2:
