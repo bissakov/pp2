@@ -33,13 +33,8 @@ csv.excel.lineterminator = "\n"
 
 with open("table.csv", "w", encoding="cp1251") as f2:
     writer = csv.writer(f2, csv.excel)
-    writer.writerow([company_name])
-    writer.writerow([f"BIN number: {bin_number}"])
-    #writer.writerow([f'Date: {date}', f'Address: {address}'])
-    writer.writerow([item_name])
-    writer.writerow([price_for_one])
-    writer.writerow([amount])
-    writer.writerow([full_price])
+    writer.writerows(["Company Name", "Bin Number", "Product Name", "Unit Price", "Amount", "Full Price"])
+    
 
 with open('table.csv', 'r', encoding='cp1251') as f2:
     for line in csv.reader(f, csv.excel):
