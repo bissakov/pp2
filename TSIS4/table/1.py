@@ -39,7 +39,7 @@ with open("table.csv", "w", encoding="cp1251") as f2:
     writer.writerow(["Bin Number","ZNM Number","Cashbox Number","Receipt Number","Company Name", "Product Name", "Unit Price", "Amount", "Full Price", "Address", "Time"])
     for i in range(0,len(product_name)):
         writer.writerow([bin_number,znm_number,cashbox,receipt_number,company_name,product_name[i],unit_price[i],amount[i],full_price[i],address,time])
-    writer.writerow(["","","","","","","","","",total,"",])
+    writer.writerow(["","","","","","","","",total,"","",])
     
 
 with open('table.csv', 'r', encoding='cp1251') as f2:
