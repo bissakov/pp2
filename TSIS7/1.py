@@ -25,28 +25,44 @@ def drawBorder(surface,col,thickness):
     pygame.draw.rect(surface, col, pygame.Rect(0, h-thickness-30, w, thickness))
 
 def drawPlot():
-    pygame.draw.line(screen, black, (0, h/2), (w, h/2), 2)
-    pygame.draw.line(screen, black, (w/2, 0), (w/2, h), 2)
-
-    i = h/2+15.4
-    while i <= h:
-        pygame.draw.rect(screen, black, pygame.Rect((w/2)-4, i, 10, 2))
+    font = pygame.font.Font(None, 24)
+    
+    i = h/2 + 15.4
+    j = 1
+    while i <= h - 30:
+        if j % 2 != 0: pygame.draw.rect(screen, black, pygame.Rect(24, i, 15, 2))
+        else: pygame.draw.rect(screen, black, pygame.Rect(27, i, 7, 2))
+        #text = font.render("", True, (0, 128, 0))
         i += 15.4
+        j += 1
 
-    i = h/2-15.4
-    while i >= 0:
-        pygame.draw.rect(screen, black, pygame.Rect((w/2)-4, i, 10, 2))
+    i = h/2 - 15.4
+    j = 1
+    while i >= 30:
+        if j % 2 != 0: pygame.draw.rect(screen, black, pygame.Rect(24, i, 15, 2))
+        else: pygame.draw.rect(screen, black, pygame.Rect(27, i, 7, 2))
         i -= 15.4
+        j += 1
 
     i = w/2 + 40
-    while i <= w:
-        pygame.draw.rect(screen, black, pygame.Rect(i,(h/2)-6.5, 2, 15))
+    j = 1
+    while i <= w-30:
+        if j % 2 != 0: pygame.draw.rect(screen, black, pygame.Rect(i,445, 2, 10))
+        else: pygame.draw.rect(screen, black, pygame.Rect(i,443.5, 2, 15))
+        text = font.render(str(round((math.pi/4)*j,2)), True, (0, 0, 0))
+        screen.blit(text,(i-6,460))
         i += 40
+        j += 1
 
-    i = w/2 + 40
-    while i >= 0:
-        pygame.draw.rect(screen, black, pygame.Rect(i,(h/2)-6.5, 2, 15))
+    i = w/2 - 40
+    j = 1
+    while i >= 30:
+        if j % 2 != 0: pygame.draw.rect(screen, black, pygame.Rect(i,445, 2, 10))
+        else: pygame.draw.rect(screen, black, pygame.Rect(i,443.5, 2, 15))
+        text = font.render("-" + str(round((math.pi/4)*j,2)), True, (0, 0, 0))
+        screen.blit(text,(i-6,460))
         i -= 40
+        j += 1
 
 
 pygame.init()
@@ -71,9 +87,9 @@ while not done:
     
     pygame.draw.lines(screen, red, False, plotPoints1, 2)
     pygame.draw.lines(screen, blue, False, plotPoints2, 2)
-
-    drawPlot()
-    
+    pygame.draw.line(screen, black, (0, h/2), (w, h/2), 2)
+    pygame.draw.line(screen, black, (w/2, 0), (w/2, h), 2)
     drawBorder(screen,black,1)
     clearFromBord(screen,white,30)
+    drawPlot()
     pygame.display.flip()
