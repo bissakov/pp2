@@ -1,5 +1,6 @@
 import pygame
 import math
+from fractions import Fraction
 
 black = [0, 0, 0]
 white = [255, 255, 255]
@@ -24,8 +25,14 @@ def drawBorder(surface,col,thickness):
     pygame.draw.rect(surface, col, pygame.Rect(w-thickness-30, 0, thickness, h))
     pygame.draw.rect(surface, col, pygame.Rect(0, h-thickness-30, w, thickness))
 
+def writePi(x):
+    num = str(Fraction(x, 4))
+    num = num.replace("1","pi")
+    if num.find("pi") < 0: num = num[0:num.find("/")] + "pi" + num[num.find("/"):]
+    return num
+
 def drawPlot():
-    font = pygame.font.Font(None, 24)
+    font = pygame.font.Font(None, 20)
     
     i = h/2 + 15.4
     j = 1
@@ -49,8 +56,10 @@ def drawPlot():
     while i <= w-30:
         if j % 2 != 0: pygame.draw.rect(screen, black, pygame.Rect(i,445, 2, 10))
         else: pygame.draw.rect(screen, black, pygame.Rect(i,443.5, 2, 15))
-        text = font.render(str(round((math.pi/4)*j,2)), True, (0, 0, 0))
-        screen.blit(text,(i-6,460))
+
+        text = font.render(writePi(j), True, (0, 0, 0))
+        
+        screen.blit(text,(i-8,460))
         i += 40
         j += 1
 
@@ -59,8 +68,8 @@ def drawPlot():
     while i >= 30:
         if j % 2 != 0: pygame.draw.rect(screen, black, pygame.Rect(i,445, 2, 10))
         else: pygame.draw.rect(screen, black, pygame.Rect(i,443.5, 2, 15))
-        text = font.render("-" + str(round((math.pi/4)*j,2)), True, (0, 0, 0))
-        screen.blit(text,(i-6,460))
+        text = font.render("-" + writePi(j), True, (0, 0, 0))
+        screen.blit(text,(i-8,460))
         i -= 40
         j += 1
 
