@@ -75,7 +75,6 @@ def drawPlot():
     j = 1
     while i <= w-30:
         if j % 2 != 0: pygame.draw.rect(screen, black, pygame.Rect(i,446, 2, 8))
-        else: pygame.draw.rect(screen, black, pygame.Rect(i,443.5, 2, 15))
 
         text = font.render(writePi(j), True, (0, 0, 0))
         
@@ -87,7 +86,6 @@ def drawPlot():
     j = 1
     while i >= 30:
         if j % 2 != 0: pygame.draw.rect(screen, black, pygame.Rect(i,446, 2, 8))
-        else: pygame.draw.rect(screen, black, pygame.Rect(i,443.5, 2, 15))
         text = font.render("-" + writePi(j), True, (0, 0, 0))
         screen.blit(text,(i-8,460))
         i -= 40
