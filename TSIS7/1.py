@@ -19,7 +19,6 @@ def clear(surface,col,thickness):
     pygame.draw.rect(surface, col, pygame.Rect(0, 0, thickness, h))
     pygame.draw.rect(surface, col, pygame.Rect(w-thickness, 0, thickness + 130, h))
     pygame.draw.rect(surface, col, pygame.Rect(0, h-thickness, w, thickness))
-    #pygame.draw.rect(surface, col, pygame.Rect(w, h-thickness, w, thickness))
 
 def annotation(s,x,y,col,sz):
     font = pygame.font.Font("arial.ttf", sz, bold=False)
@@ -35,8 +34,7 @@ def drawBorder(surface,col,thickness):
     vbound = h - 39.8
     hbound = 560
     j = -1.00
-    # pygame.draw.line(surface, col, (0,440.2), (w-thickness-30,440.2),2)
-    # pygame.draw.line(surface, col, (0,340.2), (w-thickness-30,340.2),2)
+
     for i in range(0,9):
         pygame.draw.line(surface, col, (30,vbound - 50*i), (w - 30,vbound - 50*i),1)
         annotation(str(format(j, '.2f')),5,vbound - 50*i - 7,black,10)
@@ -53,28 +51,28 @@ def writePi(x):
     return num
 
 def drawPlot():
-    font = pygame.font.Font(None, 20)
-    
-    i = h/2 + 15.4
+    font = pygame.font.Font("arial.ttf", 12, bold=False)
+    vbound = h - 39.8
     j = 1
-    # while i <= h - 30:
-    #     if j % 2 != 0: pygame.draw.rect(screen, black, pygame.Rect(24, i, 15, 2))
-    #     else: pygame.draw.rect(screen, black, pygame.Rect(27, i, 7, 2))
-    #     i += 15.4
-    #     j += 1
+    for i in range(1,32):
+        if i % 4 == 0: continue
+        j = i + 2
+        if j % 4 == 0:
+            pygame.draw.line(screen, black, (30,vbound - i*12.5), (40,vbound - i*12.5),2)
+            pygame.draw.line(screen, black, (w-30,vbound - i*12.5), (w-40,vbound - i*12.5),2)
+        else:
+            pygame.draw.line(screen, black, (30,vbound - i*12.5), (35,vbound - i*12.5),2)
+            pygame.draw.line(screen, black, (w-30,vbound - i*12.5), (w-35,vbound - i*12.5),2)
 
-    # i = h/2 - 15.4
-    # j = 1
-    # while i >= 30:
-    #     if j % 2 != 0: pygame.draw.rect(screen, black, pygame.Rect(24, i, 15, 2))
-    #     else: pygame.draw.rect(screen, black, pygame.Rect(27, i, 7, 2))
-    #     i -= 15.4
-    #     j += 1
+    text = font.render("0", True, (0, 0, 0))
+    screen.blit(text,(320,460))
 
     i = w/2 + 40
     j = 1
-    while i <= w-30:
-        if j % 2 != 0: pygame.draw.rect(screen, black, pygame.Rect(i,446, 2, 8))
+    while i <= w-60:
+        if j % 2 != 0:
+            pygame.draw.rect(screen, black, pygame.Rect(i,444, 2, 6))
+            pygame.draw.rect(screen, black, pygame.Rect(i,h-448, 2, 6))
 
         text = font.render(writePi(j), True, (0, 0, 0))
         
@@ -84,8 +82,11 @@ def drawPlot():
 
     i = w/2 - 40
     j = 1
-    while i >= 30:
-        if j % 2 != 0: pygame.draw.rect(screen, black, pygame.Rect(i,446, 2, 8))
+    while i >= 60:
+        if j % 2 != 0:
+            pygame.draw.rect(screen, black, pygame.Rect(i,444, 2, 8))
+            pygame.draw.rect(screen, black, pygame.Rect(i,h-448, 2, 6))
+
         text = font.render("-" + writePi(j), True, (0, 0, 0))
         screen.blit(text,(i-8,460))
         i -= 40
@@ -129,7 +130,9 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+
     clear(screen,white,30)
+
     drawBorder(screen,black,2)
 
     drawTrig("sin")
@@ -138,13 +141,8 @@ while not done:
     pygame.draw.line(screen, black, (30, h/2), (w-30, h/2), 2)
     pygame.draw.line(screen, black, (w/2, 30), (w/2, h-30), 2)
 
-    
-    
-
     writeAnnotations()
 
     drawPlot()
-
-    
     
     pygame.display.flip()
