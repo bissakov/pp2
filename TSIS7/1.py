@@ -5,8 +5,8 @@ from pygame import gfxdraw
 
 black = [0, 0, 0]
 white = [255, 255, 255]
-red = [255,0,0]
-blue = [0,0,255]
+red = [255,0,120]
+blue = [120,0,255]
 w = 640
 h = 480
 
@@ -14,7 +14,7 @@ screen = pygame.display.set_mode((w + 160, h))
 
 screen.fill([255, 255, 255])
 
-def clear(surface,col,thickness):
+def clear(surface,col,thickness): # font bug
     pygame.draw.rect(surface, col, pygame.Rect(0, 0, w, thickness))
     pygame.draw.rect(surface, col, pygame.Rect(0, 0, thickness, h))
     pygame.draw.rect(surface, col, pygame.Rect(w-thickness, 0, thickness + 130, h))
@@ -44,14 +44,15 @@ def drawBorder(surface,col,thickness):
 
 
 def writePi(x):
-    num = str(Fraction(x, 2))
-    num = num.replace("1","pi")
-    if len(num) == 1: num = num + "pi"
-    if num.find("pi") < 0: num = num[0:num.find("/")] + "pi" + num[num.find("/"):]
-    return num
+    if x != 0:
+        num = str(Fraction(x))
+        num = num.replace("1","pi")
+        if len(num) == 1: num = num + "pi"
+        if num.find("pi") < 0: num = num[0:num.find("/")] + "pi" + num[num.find("/"):]
+        return num
 
 def drawPlot():
-    font = pygame.font.Font("arial.ttf", 12, bold=False)
+    font = pygame.font.Font("arial.ttf", 12)
     vbound = h - 39.8
     j = 1
     for i in range(1,32):
@@ -67,30 +68,31 @@ def drawPlot():
     text = font.render("0", True, (0, 0, 0))
     screen.blit(text,(320,460))
 
-    i = w/2 + 40
+    hbound = 540
     j = 1
-    while i <= w-60:
-        if j % 2 != 0:
-            pygame.draw.rect(screen, black, pygame.Rect(i,444, 2, 6))
-            pygame.draw.rect(screen, black, pygame.Rect(i,h-448, 2, 6))
-
-        text = font.render(writePi(j), True, (0, 0, 0))
+    for i in range(0,26):
+        if i % 2 != 0:
+            if j % 2 != 0 and i < 23:
+                pygame.draw.rect(screen, black, pygame.Rect(hbound - 20*i,444, 2, 6))
+                pygame.draw.rect(screen, black, pygame.Rect(hbound - 20*i,h-448, 2, 6))
+            
+            j += 1
+            num = writePi(3 - (j-2)*(1/2))
+            text = font.render(num, True, (0, 0, 0))
+            try:
+                if len(num) == 2:
+                    screen.blit(text,(hbound+17-(i-1)*20,460))
+                elif len(num) <= 5:
+                    screen.blit(text,(hbound+10-(i-1)*20,460))
+                else:
+                    screen.blit(text,(hbound+8-(i-1)*20,460))
+            except TypeError: continue
+            
+        elif i < 23:
+            pygame.draw.rect(screen, black, pygame.Rect(hbound - 20*i,446, 2, 4))
+            pygame.draw.rect(screen, black, pygame.Rect(hbound - 20*i,h-448, 2, 4))
         
-        screen.blit(text,(i-8,460))
-        i += 40
-        j += 1
-
-    i = w/2 - 40
-    j = 1
-    while i >= 60:
-        if j % 2 != 0:
-            pygame.draw.rect(screen, black, pygame.Rect(i,444, 2, 8))
-            pygame.draw.rect(screen, black, pygame.Rect(i,h-448, 2, 6))
-
-        text = font.render("-" + writePi(j), True, (0, 0, 0))
-        screen.blit(text,(i-8,460))
-        i -= 40
-        j += 1
+        
 
 def writeAnnotations():
     annotation("-",637,50,red,32)
@@ -108,19 +110,13 @@ def drawTrig(s):
         for x in range(80, 561):
             y = int(math.sin(x/640.0 * 8 * math.pi + math.pi) * 200 + 240)
             plotPoints.append([x,y])
-        pygame.draw.lines(screen, red, False, plotPoints, 2)
-        # for i in range(0,len(plotPoints)):
-        #     try:
-        #         pygame.gfxdraw.line(screen, plotPoints[i][0], plotPoints[i][1], plotPoints[i+1][0], plotPoints[i+1][1], red)
-        #     except IndexError:
-        #         break
+        pygame.draw.lines(screen, red, False, plotPoints, 3)
     elif s == "cos":
         for x in range(80, 560, 2):
             y = int(math.cos(x/640.0 * 8 * math.pi + math.pi) * 200 + 240)
             plotPoints.append([x,y])
         for i in range(0,len(plotPoints),2):
-            pygame.draw.line(screen, blue, plotPoints[i], plotPoints[i+1],2)
-            #pygame.gfxdraw.line(screen, plotPoints[i][0], plotPoints[i][1], plotPoints[i+1][0], plotPoints[i+1][1], blue)
+            pygame.draw.line(screen, blue, plotPoints[i], plotPoints[i+1],3)
 
 pygame.init()
 
