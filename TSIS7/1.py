@@ -47,7 +47,7 @@ def writePi(x):
     if x != 0:
         num = str(Fraction(x))
         num = num.replace("1","pi")
-        if len(num) == 1: num = num + "pi"
+        if len(num) == 1 or len(num) == 2 and num != "pi": num = num + "pi"
         if num.find("pi") < 0: num = num[0:num.find("/")] + "pi" + num[num.find("/"):]
         return num
 
@@ -73,8 +73,10 @@ def drawPlot():
     for i in range(0,26):
         if i % 2 != 0:
             if j % 2 != 0 and i < 23:
-                pygame.draw.rect(screen, black, pygame.Rect(hbound - 20*i,444, 2, 6))
-                pygame.draw.rect(screen, black, pygame.Rect(hbound - 20*i,h-448, 2, 6))
+                #pygame.draw.rect(screen, black, pygame.Rect(hbound - 20*i,444, 2, 6))
+                #pygame.draw.rect(screen, black, pygame.Rect(hbound - 20*i,h-448, 2, 6))
+                pygame.draw.line(screen,black,(hbound - 20*i,450),(hbound - 20*i,445),2)
+                pygame.draw.line(screen,black,(hbound - 20*i,h-450),(hbound - 20*i,h-444),2)
             
             j += 1
             num = writePi(3 - (j-2)*(1/2))
@@ -89,8 +91,10 @@ def drawPlot():
             except TypeError: continue
             
         elif i < 23:
-            pygame.draw.rect(screen, black, pygame.Rect(hbound - 20*i,446, 2, 4))
-            pygame.draw.rect(screen, black, pygame.Rect(hbound - 20*i,h-448, 2, 4))
+            # pygame.draw.rect(screen, black, pygame.Rect(hbound - 20*i,446, 2, 4))
+            # pygame.draw.rect(screen, black, pygame.Rect(hbound - 20*i,h-448, 2, 4))
+            pygame.draw.line(screen,black,(hbound - 20*i,450),(hbound - 20*i,447),2)
+            pygame.draw.line(screen,black,(hbound - 20*i,h-450),(hbound - 20*i,h-446),2)
         
         
 
