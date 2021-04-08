@@ -75,10 +75,10 @@ while not done:
         except TypeError:
             entity.move(speed)
 
-    # timer += 1
+    timer += 1
 
-    # if (timer / 100) % 1 == 0 and speed != 10:
-    #     speed = speed + 5
+    if (timer / 100) % 5 == 0 and speed <= 11:
+        speed = speed + 2
         
 
     # if pygame.sprite.spritecollideany(player, coins):
@@ -91,12 +91,11 @@ while not done:
         
     #all_sprites.add(coin)
         
-    # if pygame.sprite.spritecollideany(player, enemies):
-    #     screen.fill((255,0,0))
-    #     pygame.display.update()
-    #     for entity in all_sprites:
-    #         entity.kill() 
-    #     time.sleep(0.5)
+    if pygame.sprite.spritecollideany(player, enemies):
+        screen.fill((255,0,0))
+        menu.menuAnnotations(screen,"GAME    OVER",480,(255,255,255),72)
+        #pygame.display.update()
+        #done = True
 
     
 

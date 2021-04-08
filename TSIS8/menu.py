@@ -4,18 +4,17 @@ BLACK = (0,0,0)
 WHITE = (255,255,255)
 BLUE = (0,0,255)
 
-def menuAnnotations(s,y,color,surface):
-    font = pygame.font.Font("assets/ARCADECLASSIC.ttf", 56, bold=True)
-    text = font.render(s, True, color)
-    text_rect = text.get_rect(center=(640, y))
-    surface.blit(text,text_rect)
-
 class Menu(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.in_menu = True
         self.rect = pygame.Rect(563,412,155,57)
         self.start = True
+    def menuAnnotations(self,surface,s,y,color,size):
+        font = pygame.font.Font("assets/ARCADECLASSIC.ttf", size, bold=True)
+        text = font.render(s, True, color)
+        text_rect = text.get_rect(center=(640, y))
+        surface.blit(text,text_rect)
     def draw(self,surface):
         while self.in_menu:
             for event in pygame.event.get():
@@ -37,9 +36,9 @@ class Menu(pygame.sprite.Sprite):
                             self.rect.move_ip(0,-80)
             surface.fill(WHITE)
             if self.start:
-                menuAnnotations("START",440,BLUE,surface)
-                menuAnnotations("EXIT",520,BLACK,surface)
+                self.menuAnnotations(surface,"START",440,BLUE,56)
+                self.menuAnnotations(surface,"EXIT",520,BLACK,56)
             else:
-                menuAnnotations("START",440,BLACK,surface)
-                menuAnnotations("EXIT",520,BLUE,surface)
+                self.menuAnnotations(surface,"START",440,BLACK,56)
+                self.menuAnnotations(surface,"EXIT",520,BLUE,56)
             pygame.display.flip()
