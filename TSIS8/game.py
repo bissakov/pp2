@@ -35,7 +35,7 @@ road_velocity = 300
 coin_velocity = 80
 
 score = 0
-font = pygame.font.Font("arial.ttf", 48, bold=True)
+font = pygame.font.Font("assets/arial.ttf", 48, bold=True)
 
 menu.draw(screen)
 

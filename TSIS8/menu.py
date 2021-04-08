@@ -5,7 +5,7 @@ WHITE = (255,255,255)
 BLUE = (0,0,255)
 
 def menuAnnotations(s,y,color,surface):
-    font = pygame.font.Font("ARCADECLASSIC.ttf", 56, bold=True)
+    font = pygame.font.Font("assets/ARCADECLASSIC.ttf", 56, bold=True)
     text = font.render(s, True, color)
     text_rect = text.get_rect(center=(640, y))
     surface.blit(text,text_rect)
