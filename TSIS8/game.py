@@ -15,6 +15,8 @@ menu = menu.Menu()
 
 FPS = pygame.time.Clock()
 
+
+
 player = player.Player()
 enemy = enemy.Enemy()
 coin = coin.Coin()
@@ -39,6 +41,10 @@ font = pygame.font.Font("assets/arial.ttf", 48, bold=True)
 
 menu.draw(screen)
 
+speed = 5
+
+timer = 0
+
 done = False
 while not done:
     for event in pygame.event.get():
@@ -47,14 +53,14 @@ while not done:
 
     screen.blit(grass,(0,0))
 
-    if road_velocity == 960:
+    if road_velocity >= 960:
         road_velocity = 0
-    if coin_velocity == 800:
+    if coin_velocity >= 800:
         coin_velocity = -200
         all_sprites.add(coin)
 
-    road_velocity += 5
-    coin_velocity += 5
+    road_velocity += speed
+    coin_velocity += speed
     screen.blit(road,(320,road_velocity-960))
     screen.blit(road,(320,road_velocity))
     
@@ -64,7 +70,16 @@ while not done:
 
     for entity in all_sprites:
         entity.draw(screen)
-        entity.move()
+        try:
+            entity.move()
+        except TypeError:
+            entity.move(speed)
+
+    # timer += 1
+
+    # if (timer / 100) % 1 == 0 and speed != 10:
+    #     speed = speed + 5
+        
 
     # if pygame.sprite.spritecollideany(player, coins):
     #     all_sprites.remove(coin)
@@ -86,6 +101,5 @@ while not done:
     
 
 
-    FPS.tick(60)
-
     pygame.display.flip()
+    FPS.tick(60)

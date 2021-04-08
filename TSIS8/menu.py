@@ -15,7 +15,7 @@ class Menu(pygame.sprite.Sprite):
         super().__init__()
         self.in_menu = True
         self.rect = pygame.Rect(563,412,155,57)
-        self.active = 0
+        self.start = True
     def draw(self,surface):
         while self.in_menu:
             for event in pygame.event.get():
@@ -29,14 +29,14 @@ class Menu(pygame.sprite.Sprite):
                             pygame.quit()
                     if self.rect.midtop[1] < 492:
                         if event.key == pygame.K_DOWN:
-                            self.active = 1
+                            self.start = False
                             self.rect.move_ip(0,80)
                     if self.rect.midtop[1] > 412:
                         if event.key == pygame.K_UP:
-                            self.active = 0
+                            self.start = True
                             self.rect.move_ip(0,-80)
             surface.fill(WHITE)
-            if self.active == 0:
+            if self.start:
                 menuAnnotations("START",440,BLUE,surface)
                 menuAnnotations("EXIT",520,BLACK,surface)
             else:
