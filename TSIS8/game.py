@@ -1,10 +1,5 @@
-import pygame
-import sys
-import time
-import player
-import enemy
-import coin
-import menu
+import pygame, sys, time
+import player, enemy, coin, menu
 
 pygame.init()
 
@@ -15,8 +10,6 @@ pygame.display.set_caption("Game")
 menu = menu.Menu()
 
 FPS = pygame.time.Clock()
-
-
 
 player = player.Player()
 enemy = enemy.Enemy()
