@@ -1,5 +1,5 @@
-import pygame, sys, time
-import player, enemy, coin, menu
+import pygame, sys
+import player_car, enemy_cars, collectable, start_screen
 
 pygame.init()
 
@@ -7,13 +7,13 @@ screen = pygame.display.set_mode((1280, 960))
 
 pygame.display.set_caption("Game")
 
-menu = menu.Menu()
+menu = start_screen.Menu()
 
 FPS = pygame.time.Clock()
 
-player = player.Player()
-enemy = enemy.Enemy()
-coin = coin.Coin()
+player = player_car.Player()
+enemy = enemy_cars.Enemy()
+coin = collectable.Coin()
 
 enemies = pygame.sprite.Group()
 enemies.add(enemy)
@@ -33,7 +33,9 @@ coin_velocity = 80
 score = 0
 font = pygame.font.Font("assets/arial.ttf", 48, bold=True)
 
-menu.draw(screen)
+WHITE = (255,255,255)
+RED = (255,0,0)
+menu.draw(screen,WHITE)
 
 speed = 5
 
@@ -82,22 +84,27 @@ while not done:
     #     all_sprites.remove(coin)
     #     pygame.display.update()
     #     score += 1
-    
-
-    
-        
+       
     #all_sprites.add(coin)
         
     if pygame.sprite.spritecollideany(player, enemies):
-        while gameover:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    gameover = False
-                    pygame.quit()
-                    sys.exit()
-            screen.fill((255,0,0))
-            menu.menuAnnotations(screen,"GAME    OVER",480,(255,255,255),72)
-            pygame.display.flip()
+        for entity in all_sprites:
+            entity.kill()
+
+        menu = start_screen.Menu()
+        menu.draw(screen,RED)
+
+        player = player_car.Player()
+        enemy = enemy_cars.Enemy()
+        coin = collectable.Coin()
+        enemies = pygame.sprite.Group()
+        enemies.add(enemy)
+        all_sprites = pygame.sprite.Group()
+        all_sprites.add(player)
+        all_sprites.add(enemy)
+        all_sprites.add(coin)
+        coins = pygame.sprite.Group()
+        coins.add(coin)
     
         
 
