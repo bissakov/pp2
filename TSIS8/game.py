@@ -1,4 +1,5 @@
 import pygame
+import sys
 import time
 import player
 import enemy
@@ -45,11 +46,14 @@ speed = 5
 
 timer = 0
 
+gameover = True
+
 done = False
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             done = True
+            sys.exit()
 
     screen.blit(grass,(0,0))
 
@@ -78,7 +82,7 @@ while not done:
     timer += 1
 
     if (timer / 100) % 5 == 0 and speed <= 11:
-        speed = speed + 2
+        speed += 2
         
 
     # if pygame.sprite.spritecollideany(player, coins):
@@ -92,10 +96,17 @@ while not done:
     #all_sprites.add(coin)
         
     if pygame.sprite.spritecollideany(player, enemies):
-        screen.fill((255,0,0))
-        menu.menuAnnotations(screen,"GAME    OVER",480,(255,255,255),72)
-        #pygame.display.update()
-        #done = True
+        while gameover:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    gameover = False
+                    pygame.quit()
+                    sys.exit()
+            screen.fill((255,0,0))
+            menu.menuAnnotations(screen,"GAME    OVER",480,(255,255,255),72)
+            pygame.display.flip()
+    
+        
 
     
 
