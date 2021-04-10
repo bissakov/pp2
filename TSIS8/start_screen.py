@@ -25,25 +25,35 @@ class Menu(pygame.sprite.Sprite):
                         if self.rect.midtop[1] >= 412 and self.rect.midtop[1] < 492:
                             self.in_menu = False
                         else:
-                            pygame.quit()
+                            self.in_menu = False
+                            sys.exit()
                     if self.rect.midtop[1] < 492:
                         if event.key == pygame.K_DOWN:
                             self.start = False
                             self.rect.move_ip(0,80)
+                    else:
+                        if event.key == pygame.K_DOWN:
+                            self.start = True
+                            self.rect.move_ip(0,-80)
                     if self.rect.midtop[1] > 412:
                         if event.key == pygame.K_UP:
                             self.start = True
                             self.rect.move_ip(0,-80)
+                    else:
+                        if event.key == pygame.K_UP:
+                            self.start = False
+                            self.rect.move_ip(0,80)
             surface.fill(color)
             if color == (255,0,0):
+                pygame.draw.line(surface, self.BLACK, (385,350), (890,350), 10)
+                pygame.draw.line(surface, self.BLACK, (385,250), (890,250), 10)
+                self.menuAnnotations(surface,"GAME    OVER",300,self.BLACK,96)
                 if self.start:
-                    self.menuAnnotations(surface,"GAME    OVER",300,self.BLACK,96)
-                    self.menuAnnotations(surface,"CONTINUE",440,self.BLUE,56)
-                    self.menuAnnotations(surface,"EXIT",520,self.WHITE,56)
-                else:
-                    self.menuAnnotations(surface,"GAME    OVER",300,self.BLACK,96)
                     self.menuAnnotations(surface,"CONTINUE",440,self.WHITE,56)
-                    self.menuAnnotations(surface,"EXIT",520,self.BLUE,56)
+                    self.menuAnnotations(surface,"EXIT",520,self.BLACK,56)
+                else:
+                    self.menuAnnotations(surface,"CONTINUE",440,self.BLACK,56)
+                    self.menuAnnotations(surface,"EXIT",520,self.WHITE,56)
             else:
                 if self.start:
                     self.menuAnnotations(surface,"START",440,self.BLUE,56)

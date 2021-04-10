@@ -1,37 +1,37 @@
 import pygame, sys
-import player_car, enemy_cars, collectable, start_screen
+import player_car
+import enemy_cars
+import collectable
+import start_screen
+import road_speed
 
 pygame.init()
-
 screen = pygame.display.set_mode((1280, 960))
-
 pygame.display.set_caption("Game")
+FPS = pygame.time.Clock()
 
 menu = start_screen.Menu()
 
-FPS = pygame.time.Clock()
-
+move_road = road_speed.Speed()
 player = player_car.Player()
 enemy = enemy_cars.Enemy()
 coin = collectable.Coin()
 
-enemies = pygame.sprite.Group()
-enemies.add(enemy)
-all_sprites = pygame.sprite.Group()
-all_sprites.add(player)
-all_sprites.add(enemy)
-all_sprites.add(coin)
 coins = pygame.sprite.Group()
 coins.add(coin)
 
-grass = pygame.image.load("assets/grass.png")
-road = pygame.image.load("assets/road.png")
+enemies = pygame.sprite.Group()
+enemies.add(enemy)
+all_sprites = pygame.sprite.Group()
+all_sprites.add(move_road)
+all_sprites.add(player)
+all_sprites.add(enemy)
+all_sprites.add(coin)
 
-road_velocity = 300
-coin_velocity = 80
+grass = pygame.image.load("assets/grass.png")
 
 score = 0
-font = pygame.font.Font("assets/arial.ttf", 48, bold=True)
+font = pygame.font.Font("assets/ARCADECLASSIC.ttf", 72, bold=True)
 
 WHITE = (255,255,255)
 RED = (255,0,0)
@@ -41,7 +41,7 @@ speed = 5
 
 timer = 0
 
-gameover = True
+coin_collected = False
 
 done = False
 while not done:
@@ -51,21 +51,10 @@ while not done:
             sys.exit()
 
     screen.blit(grass,(0,0))
+      
 
-    if road_velocity >= 960:
-        road_velocity = 0
-    if coin_velocity >= 800:
-        coin_velocity = -200
-        all_sprites.add(coin)
-
-    road_velocity += speed
-    coin_velocity += speed
-    screen.blit(road,(320,road_velocity-960))
-    screen.blit(road,(320,road_velocity))
-    
-
-    text = font.render(str(score), True, (0, 0, 0))
-    screen.blit(text,(0,0))
+    text = font.render(str(score), True, WHITE)
+    screen.blit(text,(100,480))
 
     for entity in all_sprites:
         entity.draw(screen)
@@ -80,10 +69,13 @@ while not done:
         speed += 2
         
 
-    # if pygame.sprite.spritecollideany(player, coins):
-    #     all_sprites.remove(coin)
-    #     pygame.display.update()
-    #     score += 1
+    if pygame.sprite.spritecollideany(player, coins):
+        all_sprites.remove(coin)
+        coin = collectable.Coin()
+        all_sprites.add(coin)
+        coins = pygame.sprite.Group()
+        coins.add(coin)
+        score += 1
        
     #all_sprites.add(coin)
         
@@ -94,22 +86,26 @@ while not done:
         menu = start_screen.Menu()
         menu.draw(screen,RED)
 
+        all_sprites.empty()
+        enemies.empty()
+        coins.empty()
+
+        move_road = road_speed.Speed()
         player = player_car.Player()
         enemy = enemy_cars.Enemy()
         coin = collectable.Coin()
         enemies = pygame.sprite.Group()
         enemies.add(enemy)
         all_sprites = pygame.sprite.Group()
+        all_sprites.add(move_road)
         all_sprites.add(player)
         all_sprites.add(enemy)
         all_sprites.add(coin)
+
         coins = pygame.sprite.Group()
         coins.add(coin)
+        speed = 5
+        score = 0
     
-        
-
-    
-
-
     pygame.display.flip()
     FPS.tick(60)
