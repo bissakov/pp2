@@ -12,7 +12,7 @@ class Menu(pygame.sprite.Sprite):
         self.BLUE = (0,0,255)
         self.YELLOW = (255,255,0)
     def menuAnnotations(self,surface,s,y,color,size):
-        font = pygame.font.Font("assets/ARCADECLASSIC.ttf", size, bold=True)
+        font = pygame.font.Font("assets/ARCADECLASSIC.ttf", size)
         text = font.render(s, True, color)
         text_rect = text.get_rect(center=(640, y))
         surface.blit(text,text_rect)

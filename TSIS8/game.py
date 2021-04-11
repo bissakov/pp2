@@ -33,7 +33,7 @@ grass = pg.image.load("assets/sprites/grass.png")
 
 SCORE = 0
 HIGHSCORE = 0 #session highscore
-font = pg.font.Font("assets/ARCADECLASSIC.ttf", 72, bold=True)
+font = pg.font.Font("assets/ARCADECLASSIC.ttf", 72)
 
 WHITE = (255,255,255)
 BLACK = (0,0,0)
@@ -45,13 +45,11 @@ speed = 5
 INC_SPEED = pg.USEREVENT + 1
 pg.time.set_timer(INC_SPEED, 2000)
 
-coin_collected = False
-
 done = False
 while not done:
     for event in pg.event.get():
         if event.type == INC_SPEED and speed < 10:
-              speed += 0.5
+            speed += 0.5
         if event.type == pg.QUIT or event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
             done = True
             sys.exit()
@@ -91,7 +89,7 @@ while not done:
         for entity in all_sprites:
             entity.kill()
 
-        if HIGHSCORE == 0 or SCORE > HIGHSCORE:
+        if SCORE > HIGHSCORE:
             HIGHSCORE = SCORE
 
         menu = start_screen.Menu()
