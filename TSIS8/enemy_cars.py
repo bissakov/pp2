@@ -9,7 +9,7 @@ class Enemy(pygame.sprite.Sprite):
         centerx = random.randint(465, 840)
         self.rect = self.image.get_rect(center = (centerx,0))
     def move(self,speed):
-        random_speed = speed + random.randint(5, 15)
+        random_speed = speed + random.randint(0, 15)
         self.rect.move_ip(0,random_speed)
         if self.rect.bottom > 1200:
             self.rect.top = 0
