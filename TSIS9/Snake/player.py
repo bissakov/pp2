@@ -3,16 +3,19 @@ import time
 import random
 import pygame
 from pygame.math import Vector2
+import collectable
+from variables import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.x = random.choice(range(96,1184,32))/32
-        self.y = random.choice(range(80,880,32))/32
+        self.x = random.choice(range(X_OFFSET, WIDTH + TILESIZE, TILESIZE)) / TILESIZE
+        self.y = random.choice(range(Y_OFFSET, HEIGHT + TILESIZE, TILESIZE)) / TILESIZE
         self.rect = pygame.Rect(self.x + 1,self.y + 1,30,30)
         self.body = [Vector2(self.x,self.y)]
         self.direction = Vector2(0,0)
         self.gameover = False
+        self.food = collectable.Food()
 
     def move(self,event):
         if event.type == pygame.KEYDOWN:
@@ -45,14 +48,13 @@ class Player(pygame.sprite.Sprite):
             body_copy.insert(0,body_copy[0] + self.direction)
             self.body = body_copy[:-1]
         for block in self.body:
-            x_pos = int((block.x) * 32) 
-            y_pos = int((block.y) * 32)
+            x_pos = int(block.x * 32)
+            y_pos = int(block.y * 32)
             self.rect = pygame.Rect(x_pos + 1,y_pos + 1,30,30)
-            pygame.draw.rect(surface, (255,255,255), self.rect)        
+            pygame.draw.rect(surface, (255,255,255), self.rect)       
         time.sleep(.1)
 
-    def get_head(self):
-        return self.body[0]
+    
 
     def check_fail(self):
         if self.body[0].x < 2:

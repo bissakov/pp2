@@ -10,10 +10,10 @@ pg.display.set_caption("Snake")
 FPS = pg.time.Clock()
 
 def draw_grid():
-    for x in range(64, WIDTH+65, TILESIZE):
-        pg.draw.line(screen,DARKGREY,(x,48),(x,912))
-    for y in range(48, HEIGHT+49, TILESIZE):
-        pg.draw.line(screen,DARKGREY,(64,y),(1216,y))
+    for x in range(X_OFFSET, WIDTH + X_OFFSET + 1, TILESIZE):
+        pg.draw.line(screen,DARKGREY,(x,Y_OFFSET),(x,HEIGHT + Y_OFFSET))
+    for y in range(Y_OFFSET, HEIGHT + Y_OFFSET + 1, TILESIZE):
+        pg.draw.line(screen,DARKGREY,(X_OFFSET,y),(WIDTH + X_OFFSET,y))
 
 player = p.Player()
 f = collectable.Food()
@@ -52,8 +52,8 @@ while not done:
     screen.blit(text,text_rect)
 
     draw_grid()
-
-    if pg.sprite.spritecollideany(player, food):
+    
+    if player.body[0] == f.pos:
         all_obj.remove(f)
         f = collectable.Food()
         all_obj.add(f)
@@ -61,6 +61,19 @@ while not done:
         food.add(f)
         eaten = True
         score += 1
+
+    #player.check_collision()
+    # if player.check_collision():
+        
+
+    # if pg.sprite.spritecollideany(player, food):
+    #     all_obj.remove(f)
+    #     f = collectable.Food()
+    #     all_obj.add(f)
+    #     food = pg.sprite.Group()
+    #     food.add(f)
+    #     eaten = True
+    #     score += 1
     
     # if player.check_fail():
     #     print("fail")
