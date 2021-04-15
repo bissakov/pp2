@@ -29,10 +29,8 @@ f = collectable.Food()
 
 def GenerateLevel(check):
     if check:
-        x = random.choice(list(range(X_OFFSET, int(f.pos.x) * 32 - 128, TILESIZE)) + list(range(int(f.pos.x) * 32 + 128, WIDTH + TILESIZE, TILESIZE)))
-        y = random.choice(list(range(Y_OFFSET, int(f.pos.y) * 32 - 128, TILESIZE)) + list(range(int(f.pos.y) * 32 + 128, HEIGHT + TILESIZE, TILESIZE)))
-        # x = random.choice(range(X_OFFSET, WIDTH + TILESIZE, TILESIZE))
-        # y = random.choice(range(Y_OFFSET, HEIGHT + TILESIZE, TILESIZE))
+        x = random.choice(list(range(X_OFFSET, int(f.pos.x) * 32 - 64, TILESIZE)) + list(range(int(f.pos.x) * 32 + 64, WIDTH + TILESIZE, TILESIZE)))
+        y = random.choice(list(range(Y_OFFSET, int(f.pos.y) * 32 - 64, TILESIZE)) + list(range(int(f.pos.y) * 32 + 64, HEIGHT + TILESIZE, TILESIZE)))
         size = random.choice([0,1])
         return Vector3(x,y,size)
 
@@ -61,17 +59,6 @@ while not done:
         player.move(event)
 
     screen.fill((0, 0, 0))
-        
-    generate = False
-    
-    for piece in wall:
-        if piece.z == 1:
-            rect = pg.Rect(piece.x + 1,piece.y + 1,62,62)
-            pg.draw.rect(screen, LIGHTGREY, rect)
-        elif piece.z == 0:
-            rect = pg.Rect(piece.x + 1,piece.y + 1,30,30)
-            pg.draw.rect(screen, LIGHTGREY, rect)
-        
 
     for entity in all_obj:
         try:
@@ -79,6 +66,16 @@ while not done:
         except TypeError:
             entity.draw(screen,eaten)
             eaten = False
+
+    generate = False
+
+    for piece in wall:
+        if piece.z == 1:
+            rect = pg.Rect(piece.x + 1,piece.y + 1,62,62)
+            pg.draw.rect(screen, LIGHTGREY, rect)
+        elif piece.z == 0:
+            rect = pg.Rect(piece.x + 1,piece.y + 1,30,30)
+            pg.draw.rect(screen, LIGHTGREY, rect)
 
     score_label = font.render("SCORE: " + str(score), True, (255,255,255))
     text_rect = score_label.get_rect(center=(640, 30))
@@ -98,14 +95,14 @@ while not done:
         food.add(f)
         eaten = True
         score += 1
-        if score % 1 == 0 and level <= 3:
-            wall.clear()
-            i = 1
-            generate = True
-            while i <= level * 7:
-                wall.append(GenerateLevel(generate))
-                i += 1
-            level += 1
+        # if score % 1 == 0 and level <= 3:
+        #     wall.clear()
+        #     i = 1
+        #     generate = True
+        #     while i <= level * 7:
+        #         wall.append(GenerateLevel(generate)
+        #         i += 1
+        #     level += 1
         
 
     
