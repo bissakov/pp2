@@ -10,9 +10,8 @@ class Rectangle(pygame.sprite.Sprite):
         self.shape_list = []
         self.clr_list = []
         self.drawing = False
-        
+
     def control(self, event, clr):
-        self.color = clr
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.start = event.pos
             self.size = 0, 0
@@ -37,3 +36,4 @@ class Rectangle(pygame.sprite.Sprite):
         rect = pygame.Rect(self.start, self.size)
         rect.normalize()
         pygame.draw.rect(surface, color, rect, thickness)
+        

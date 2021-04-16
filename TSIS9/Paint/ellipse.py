@@ -10,7 +10,7 @@ class Ellipse(pygame.sprite.Sprite):
         self.shape_list = []
         self.clr_list = []
         self.drawing = False
-        
+
     def control(self, event, clr):
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.start = event.pos
@@ -36,3 +36,4 @@ class Ellipse(pygame.sprite.Sprite):
         rect = pygame.Rect(self.start, self.size)
         rect.normalize()
         pygame.draw.ellipse(surface, color, rect, thickness)
+        

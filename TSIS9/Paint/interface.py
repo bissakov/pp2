@@ -7,13 +7,16 @@ class Interface(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.screen = pg.display.set_mode((1280, 960))
+
         self.color_surface = pg.Surface.subsurface(self.screen, (738,20,174,130))
         self.tool_surface = pg.Surface.subsurface(self.screen, (0,0,1280,200))
         self.current_color_surface = pg.Surface.subsurface(self.screen, (620,36,100,100))
+
         self.eyedropper = pg.image.load("assets/eyedropper-9.png")
         self.cursor_rect = self.eyedropper.get_rect()
+
         self.font = pg.font.Font("arial.ttf", 22)
-    
+
     def hover(self,surface):        
         cursor_hidden = False
         for color_rect in color_rects:
@@ -44,10 +47,12 @@ class Interface(pygame.sprite.Sprite):
                 if j + 8*i < len(colors):
                     pg.draw.rect(self.color_surface, colors[j + 8*i], (22 * j,22 * i,20,20))
                     pg.draw.rect(self.color_surface, BLACK, (22 * j,22 * i,20,20), 1)
-                    num_lines = sum(1 for line in open('color_rects.txt'))
-                    if num_lines <= 48:
-                        f = open("color_rects.txt", "a")
-                        f.write(str(22 * j + 738) + ", " + str(22 * i + 20) + "\n")
+
+                    # get color buttons coordinates to file
+                    # num_lines = sum(1 for line in open('color_rects.txt'))
+                    # if num_lines <= 48:
+                    #     f = open("color_rects.txt", "a")
+                    #     f.write(str(22 * j + 738) + ", " + str(22 * i + 20) + "\n")
 
         #tools
         for i in range(len(buttons)):
@@ -55,13 +60,13 @@ class Interface(pygame.sprite.Sprite):
                 rect = pg.Rect(368 + 42*(i-1), 98, 66, 52)
             else:
                 rect = pg.Rect(368 + 42*i, 20, 66, 52)
+            self.screen.blit(buttons[i], rect)
 
+            # get tool buttons coordinates to file
             # num_lines = sum(1 for line in open('button_rects.txt'))
             # if num_lines <= 6:
             #     f = open("button_rects.txt", "a")
             #     f.write(str(rect) + "\n")
-
-            self.screen.blit(buttons[i], rect)
 
         text = self.font.render("Current tool: " + active_tool.upper(), True, (0,0,0))
         text_rect = text.get_rect(center=(640, 180))

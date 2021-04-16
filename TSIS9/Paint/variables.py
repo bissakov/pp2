@@ -22,7 +22,7 @@ buttons = [
     ellipse
 ]
 
-#[0]save,[1]pencil,[2]brush,[3]eraser,[4]rectangle,[5]ellipse
+#[0]save,[1]clear,[2]brush,[3]eraser,[4]rectangle,[5]ellipse
 button_rects = [
     Vector2(368, 20),
     Vector2(368, 98),
@@ -143,5 +143,3 @@ colors = [
     (64,0,64),
     (255,255,255)
 ]
-
-#active_color = BLACK
