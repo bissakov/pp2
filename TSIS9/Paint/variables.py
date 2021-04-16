@@ -1,4 +1,5 @@
 import pygame as pg
+from pygame.math import Vector2
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
@@ -6,7 +7,7 @@ DARKGREY = (64,64,64)
 LIGHTGREY = (200,200,200)
 
 save = pg.image.load("assets/save.png")
-pencil = pg.image.load("assets/pencil.png")
+clear = pg.image.load("assets/clear.png")
 brush = pg.image.load("assets/brush.png")
 eraser = pg.image.load("assets/eraser.png")
 rectange = pg.image.load("assets/rectangle.png")
@@ -14,11 +15,74 @@ ellipse = pg.image.load("assets/ellipse.png")
 
 buttons = [
     save,
-    pencil,
+    clear,
     brush,
     eraser,
     rectange,
     ellipse
+]
+
+#[0]save,[1]pencil,[2]brush,[3]eraser,[4]rectangle,[5]ellipse
+button_rects = [
+    Vector2(419, 20),
+    Vector2(419, 98),
+    Vector2(503, 20),
+    Vector2(503, 98),
+    Vector2(587, 20),
+    Vector2(587, 98)
+]
+
+color_rects = [
+    Vector2(686.5, 20),
+    Vector2(708.5, 20),
+    Vector2(730.5, 20),
+    Vector2(752.5, 20),
+    Vector2(774.5, 20),
+    Vector2(796.5, 20),
+    Vector2(818.5, 20),
+    Vector2(840.5, 20),
+    Vector2(686.5, 42),
+    Vector2(708.5, 42),
+    Vector2(730.5, 42),
+    Vector2(752.5, 42),
+    Vector2(774.5, 42),
+    Vector2(796.5, 42),
+    Vector2(818.5, 42),
+    Vector2(840.5, 42),
+    Vector2(686.5, 64),
+    Vector2(708.5, 64),
+    Vector2(730.5, 64),
+    Vector2(752.5, 64),
+    Vector2(774.5, 64),
+    Vector2(796.5, 64),
+    Vector2(818.5, 64),
+    Vector2(840.5, 64),
+    Vector2(686.5, 86),
+    Vector2(708.5, 86),
+    Vector2(730.5, 86),
+    Vector2(752.5, 86),
+    Vector2(774.5, 86),
+    Vector2(796.5, 86),
+    Vector2(818.5, 86),
+    Vector2(840.5, 86),
+    Vector2(686.5, 108),
+    Vector2(708.5, 108),
+    Vector2(730.5, 108),
+    Vector2(752.5, 108),
+    Vector2(774.5, 108),
+    Vector2(796.5, 108),
+    Vector2(818.5, 108),
+    Vector2(840.5, 108),
+    Vector2(686.5, 130),
+    Vector2(708.5, 130),
+    Vector2(730.5, 130),
+    Vector2(752.5, 130),
+    Vector2(774.5, 130),
+    Vector2(796.5, 130),
+    Vector2(818.5, 130),
+    Vector2(840.5, 130),
+    Vector2(686.5, 20),
+    Vector2(708.5, 20)
 ]
 
 colors = [

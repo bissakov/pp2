@@ -27,7 +27,6 @@ class Ellipse(pygame.sprite.Sprite):
             self.size = end[0] - self.start[0], end[1] - self.start[1]
 
     def draw(self,surface,color,thickness):
-        surface.fill(WHITE)
         for rect in self.rect_list:
             pygame.draw.ellipse(surface, color, rect, thickness)
         rect = pygame.Rect(self.start, self.size)
