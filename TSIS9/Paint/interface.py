@@ -7,13 +7,12 @@ class Interface(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.screen = pg.display.set_mode((1280, 960))
-        self.color_surface = pg.Surface.subsurface(self.screen, (686.5,20,174,130))
-        self.tool_surface = pg.Surface.subsurface(self.screen, (0,0,1280,172))
+        self.color_surface = pg.Surface.subsurface(self.screen, (738,20,174,130))
+        self.tool_surface = pg.Surface.subsurface(self.screen, (0,0,1280,200))
+        self.current_color_surface = pg.Surface.subsurface(self.screen, (620,36,100,100))
         self.eyedropper = pg.image.load("assets/eyedropper-9.png")
         self.cursor_rect = self.eyedropper.get_rect()
-        self.color = BLACK
-        if self.choose_color() is not None:
-            self.color = self.choose_color()
+        self.font = pg.font.Font("arial.ttf", 22)
     
     def hover(self,surface):        
         cursor_hidden = False
@@ -33,8 +32,10 @@ class Interface(pygame.sprite.Sprite):
                     return colors[i]
 
 
-    def draw(self):
+    def draw(self,color,active_tool):
         self.tool_surface.fill(LIGHTGREY)
+        self.current_color_surface.fill(color)
+        pg.draw.rect(self.current_color_surface, BLACK, (0,0,100,100), 1)
 
         #colors
         j = 1
@@ -46,14 +47,14 @@ class Interface(pygame.sprite.Sprite):
                     num_lines = sum(1 for line in open('color_rects.txt'))
                     if num_lines <= 48:
                         f = open("color_rects.txt", "a")
-                        f.write(str(22 * j + 686.5) + ", " + str(22 * i + 20) + "\n")
+                        f.write(str(22 * j + 738) + ", " + str(22 * i + 20) + "\n")
 
         #tools
         for i in range(len(buttons)):
             if i % 2:
-                rect = pg.Rect(419.5 + 42*(i-1), 98, 66, 52)
+                rect = pg.Rect(368 + 42*(i-1), 98, 66, 52)
             else:
-                rect = pg.Rect(419.5 + 42*i, 20, 66, 52)
+                rect = pg.Rect(368 + 42*i, 20, 66, 52)
 
             # num_lines = sum(1 for line in open('button_rects.txt'))
             # if num_lines <= 6:
@@ -62,4 +63,8 @@ class Interface(pygame.sprite.Sprite):
 
             self.screen.blit(buttons[i], rect)
 
-        pg.draw.line(self.screen,(0,0,0),(0,172),(1280,172),1)
+        text = self.font.render("Current tool: " + active_tool.upper(), True, (0,0,0))
+        text_rect = text.get_rect(center=(640, 180))
+        self.screen.blit(text,text_rect)
+
+        pg.draw.line(self.screen,(0,0,0),(0,200),(1280,200),1)
