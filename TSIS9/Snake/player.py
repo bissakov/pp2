@@ -56,14 +56,15 @@ class Player(pygame.sprite.Sprite):
 
     def check_fail(self):
         self.gameover = False
-        if self.body[0].x < 2:
+        if self.body[0].x < 2 or self.body[0].x >= 38:
             self.gameover = True
-        if self.body[0].x >= 38:
+        if self.body[0].y < 2 or self.body[0].y > 27:
             self.gameover = True
-        if self.body[0].y < 2:
-            self.gameover = True
-        if self.body[0].y > 27:
-            self.gameover = True
+        
+        for block in self.body[1:]:
+            if block == self.body[0]:
+                self.gameover = True
+
         return self.gameover
 
     def reset(self):
