@@ -8,6 +8,7 @@ class Brush(pygame.sprite.Sprite):
         self.positions = []
         self.relpos = []
         self.color_list = []
+        self.size = []
 
     def control(self, event, tool, color):
         if tool == "brush":
@@ -19,6 +20,7 @@ class Brush(pygame.sprite.Sprite):
                 self.relpos.append(rel)
                 #if tool == "brush":
                 self.color_list.append(color)
+                self.size.append(10)
         if tool == "eraser":
             if event.type == pygame.MOUSEMOTION and pygame.mouse.get_pressed() == (1,0,0):
                 pos, rel = event.pos, event.rel
@@ -27,6 +29,7 @@ class Brush(pygame.sprite.Sprite):
                 self.positions.append(pos)
                 self.relpos.append(rel)
                 self.color_list.append(WHITE)
+                self.size.append(30)
             
                 
     def draw(self, surface):
@@ -39,5 +42,12 @@ class Brush(pygame.sprite.Sprite):
         #             pass
         #         pygame.draw.circle(surface, color, self.points[i], 5)
         for i in range(len(self.positions)):
-            pygame.draw.line(surface, self.color_list[i], self.positions[i], (self.positions[i].x-self.relpos[i].x, self.positions[i].y-self.relpos[i].y), 10)
-            pygame.draw.circle(surface, self.color_list[i], self.positions[i], 4)
+            pygame.draw.line(surface, self.color_list[i], self.positions[i], (self.positions[i].x-self.relpos[i].x, self.positions[i].y-self.relpos[i].y), self.size[i])
+            pygame.draw.circle(surface, self.color_list[i], self.positions[i], self.size[i] - 6)
+
+    def reset(self, flag):
+        if flag:
+            self.positions = []
+            self.relpos = []
+            self.color_list = []
+            self.size = []

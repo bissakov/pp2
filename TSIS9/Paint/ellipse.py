@@ -36,4 +36,8 @@ class Ellipse(pygame.sprite.Sprite):
         rect = pygame.Rect(self.start, self.size)
         rect.normalize()
         pygame.draw.ellipse(surface, color, rect, thickness)
-        
+    
+    def reset(self, flag):
+        if flag:
+            self.shape_list = []
+            self.clr_list = []

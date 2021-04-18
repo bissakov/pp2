@@ -36,4 +36,9 @@ class Rectangle(pygame.sprite.Sprite):
         rect = pygame.Rect(self.start, self.size)
         rect.normalize()
         pygame.draw.rect(surface, color, rect, thickness)
+
+    def reset(self, flag):
+        if flag:
+            self.shape_list = []
+            self.clr_list = []
         
