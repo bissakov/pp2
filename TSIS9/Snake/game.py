@@ -1,9 +1,9 @@
 import sys
 import random
-import time
 import pygame as pg
-import player as p
-import collectable
+from player import Player
+from collectable import Food
+from start_screen import Menu
 from pygame.math import Vector2, Vector3
 from variables import *
 
@@ -24,8 +24,9 @@ def draw_grid():
         else:
             pg.draw.line(screen,DARKGREY,(X_OFFSET+2,y),(WIDTH + X_OFFSET-2,y))
 
-player = p.Player()
-f = collectable.Food()
+player = Player()
+f = Food()
+menu = Menu()
 
 def GenerateLevel(check):
     if check:
@@ -42,8 +43,11 @@ food = pg.sprite.Group()
 food.add(f)
 
 font = pg.font.Font("arial.ttf", 36)
-score = 0
+SCORE = 0
+HIGHSCORE = 0
 level = 1
+
+menu.draw(screen,WHITE,SCORE,HIGHSCORE)
 
 wall = []
 
@@ -57,6 +61,11 @@ while not done:
             done = True
             sys.exit()
         player.move(event)
+
+    all_keys = pg.key.get_pressed()
+    if all_keys[pg.K_LCTRL] and all_keys[pg.K_s]:
+        f2 = open("save.txt", "w")
+        f2.write(str(player.body) + "\n" + str(player.direction) + "\n" + str(f.pos) + "\n")
 
     screen.fill((0, 0, 0))
 
@@ -77,7 +86,7 @@ while not done:
             rect = pg.Rect(piece.x + 1,piece.y + 1,30,30)
             pg.draw.rect(screen, LIGHTGREY, rect)
 
-    score_label = font.render("SCORE: " + str(score), True, (255,255,255))
+    score_label = font.render("SCORE: " + str(SCORE), True, (255,255,255))
     text_rect = score_label.get_rect(center=(640, 30))
     screen.blit(score_label,text_rect)
 
@@ -89,12 +98,12 @@ while not done:
     
     if player.body[0] == f.pos:
         all_obj.remove(f)
-        f = collectable.Food()
+        f = Food()
         all_obj.add(f)
         food = pg.sprite.Group()
         food.add(f)
         eaten = True
-        score += 1
+        SCORE += 1
         # if score % 1 == 0 and level <= 3:
         #     wall.clear()
         #     i = 1
