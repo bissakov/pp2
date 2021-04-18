@@ -47,7 +47,7 @@ SCORE = 0
 HIGHSCORE = 0
 level = 1
 
-menu.draw(screen,WHITE,SCORE,HIGHSCORE)
+menu.draw(screen,BLACK,SCORE,HIGHSCORE)
 
 wall = []
 
@@ -111,14 +111,7 @@ while not done:
         #     while i <= level * 7:
         #         wall.append(GenerateLevel(generate)
         #         i += 1
-        #     level += 1
-        
-
-    
-
-    #player.check_collision()
-    # if player.check_collision():
-        
+        #     level += 1        
 
     # if pg.sprite.spritecollideany(player, food):
     #     all_obj.remove(f)
@@ -129,13 +122,13 @@ while not done:
     #     eaten = True
     #     score += 1
     
-    # if player.check_fail():
-    #     print("fail")
-    #     #done = True
-
-        
-
-
+    if player.check_fail():
+        if SCORE > HIGHSCORE:
+            HIGHSCORE = SCORE
+        player.reset()
+        menu = Menu()
+        menu.draw(screen,DARKRED,SCORE,HIGHSCORE)
+        SCORE = 0
 
     pg.display.flip()
     FPS.tick(60)

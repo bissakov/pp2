@@ -54,16 +54,24 @@ class Player(pygame.sprite.Sprite):
             pygame.draw.rect(surface, (255,255,255), self.rect)       
         time.sleep(.1)
 
-    
-
     def check_fail(self):
+        self.gameover = False
         if self.body[0].x < 2:
             self.gameover = True
         if self.body[0].x >= 38:
             self.gameover = True
-        if self.body[0].y < 1.5:
+        if self.body[0].y < 2:
             self.gameover = True
-        if self.body[0].y >= 28.5:
+        if self.body[0].y > 27:
             self.gameover = True
         return self.gameover
+
+    def reset(self):
+        self.x = random.choice(range(X_OFFSET, WIDTH + TILESIZE, TILESIZE)) / TILESIZE
+        self.y = random.choice(range(Y_OFFSET, HEIGHT + TILESIZE, TILESIZE)) / TILESIZE
+        self.rect = pygame.Rect(self.x + 1,self.y + 1,30,30)
+        self.body = [Vector2(self.x,self.y)]
+        self.direction = Vector2(0,0)
+        self.gameover = False
+        self.food = collectable.Food()
                 

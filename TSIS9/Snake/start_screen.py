@@ -53,32 +53,20 @@ class Menu(pygame.sprite.Sprite):
                         self.scale_buttons()
             surface.fill(color)
 
-            if color == (255,0,0):
-                pygame.draw.line(surface, BLACK, (385,350), (890,350), 10)
-                pygame.draw.line(surface, BLACK, (385,250), (890,250), 10)
-                self.menuAnnotations(surface,"GAME    OVER",300,BLACK,96)
-                highscore = "Highscore                   " + str(HIGHSCORE)
+            if color == DARKRED:
+                highscore = "Highscore           " + str(HIGHSCORE)
                 self.menuAnnotations(surface,highscore,100,YELLOW,48)
                 score = "Current Score     " + str(SCORE)
                 self.menuAnnotations(surface,score,170,YELLOW,48)
-                if self.start:
-                    self.menuAnnotations(surface,"CONTINUE",440,WHITE,56)
-                    self.menuAnnotations(surface,"EXIT",520,BLACK,56)
-                else:
-                    self.menuAnnotations(surface,"CONTINUE",440,BLACK,56)
-                    self.menuAnnotations(surface,"EXIT",520,WHITE,56)
+
+                pygame.draw.rect(surface,BLACK,self.rect)
+                self.menuAnnotations(surface,"START",400,WHITE,56)
+                self.menuAnnotations(surface,"CONTINUE",480,WHITE,56)
+                self.menuAnnotations(surface,"EXIT",560,WHITE,56)
             else:
-                # if self.start:
-                #     self.menuAnnotations(surface,"START",400,self.BLUE,56)
-                #     self.menuAnnotations(surface,"CONTINUE",480,self.BLACK,56)
-                #     self.menuAnnotations(surface,"EXIT",560,self.BLACK,56)
-                # else:
-                #     self.menuAnnotations(surface,"START",400,self.BLUE,56)
-                #     self.menuAnnotations(surface,"CONTINUE",480,self.BLUE,56)
-                #     self.menuAnnotations(surface,"EXIT",560,self.BLUE,56)
-                pygame.draw.rect(surface,BLUE,self.rect)
-                self.menuAnnotations(surface,"START",400,BLACK,56)
-                self.menuAnnotations(surface,"CONTINUE",480,BLACK,56)
-                self.menuAnnotations(surface,"EXIT",560,BLACK,56)
+                pygame.draw.rect(surface,DARKBLUE,self.rect)
+                self.menuAnnotations(surface,"START",400,WHITE,56)
+                self.menuAnnotations(surface,"CONTINUE",480,WHITE,56)
+                self.menuAnnotations(surface,"EXIT",560,WHITE,56)
                 
             pygame.display.flip()
