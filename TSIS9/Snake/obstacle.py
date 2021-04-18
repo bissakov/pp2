@@ -1,12 +1,11 @@
 import random
 import pygame
 from pygame.math import Vector3
-from collectable import Food
 from player import Player
 from variables import *
 
-f = Food()
-player = Player()
+p1 = Player()
+p2 = Player()
 
 class Wall(pygame.sprite.Sprite):
     def __init__(self):
@@ -16,8 +15,8 @@ class Wall(pygame.sprite.Sprite):
 
     def generateLevel(self):
         if self.generate:
-            x = random.choice(list(range(X_OFFSET, int(f.pos.x) * 32 - 64, TILESIZE)) + list(range(int(f.pos.x) * 32 + 64, WIDTH + TILESIZE, TILESIZE)))
-            y = random.choice(list(range(Y_OFFSET, int(f.pos.y) * 32 - 64, TILESIZE)) + list(range(int(f.pos.y) * 32 + 64, HEIGHT + TILESIZE, TILESIZE)))
+            x = random.choice(range(X_OFFSET, WIDTH + TILESIZE, TILESIZE))
+            y = random.choice(range(Y_OFFSET, HEIGHT + TILESIZE, TILESIZE))
             size = random.choice([0,1])
             return Vector3(x,y,size)
 
@@ -38,7 +37,8 @@ class Wall(pygame.sprite.Sprite):
             while i <= level * 7:
                 self.wall.append(self.generateLevel())
                 i += 1
-            player.reset()
+            p1.reset()
+            p2.reset()
 
     def reset(self):
         self.wall = []

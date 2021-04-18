@@ -14,15 +14,12 @@ screen = pg.display.set_mode((1280, 960))
 pg.display.set_caption("Snake")
 FPS = pg.time.Clock()
 
-player = Player()
+p1 = Player()
+p2 = Player()
 inteface = Interface()
 f = Food()
 wall = Wall()
 menu = Menu()
-
-all_obj = pg.sprite.Group()
-all_obj.add(player)
-all_obj.add(f)
 
 food = pg.sprite.Group()
 food.add(f)
@@ -33,7 +30,8 @@ LEVEL = 1
 
 menu.draw(screen,BLACK,SCORE,HIGHSCORE)
 
-eaten = False
+eaten1 = False
+eaten2 = False
 
 done = False
 while not done:
@@ -41,41 +39,45 @@ while not done:
         if event.type == pg.QUIT or event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
             done = True
             sys.exit()
-        player.move(event)
+        p1.move(event,"player1")
+        p2.move(event,"player2")
 
     all_keys = pg.key.get_pressed()
     if all_keys[pg.K_LCTRL] and all_keys[pg.K_s]:
         f2 = open("save.txt", "w")
-        f2.write(str(player.body) + "\n" + str(player.direction) + "\n" + str(f.pos) + "\n")
+        f2.write(str(p1.body) + "\n" + str(p1.direction) + "\n" + str(f.pos) + "\n")
 
     screen.fill((0, 0, 0))
 
-    for entity in all_obj:
-        try:
-            entity.draw(screen)
-        except TypeError:
-            entity.draw(screen,eaten)
-            eaten = False
+    f.draw(screen)
+    p1.draw(screen,eaten1,DARKBLUE)
+    #p2.draw(screen,eaten2,DARKRED)
+    eaten1 = False
+    eaten2 = False
 
     wall.draw(screen)
     inteface.draw(screen, SCORE, LEVEL)
     
-    if player.body[0] == f.pos:
-        all_obj.remove(f)
-        f = Food()
-        all_obj.add(f)
-        food = pg.sprite.Group()
-        food.add(f)
-        eaten = True
+    if p1.body[0] == f.pos:
+        f.reset()
+        eaten1 = True
         SCORE += 1
         wall.regenerateWalls(SCORE,LEVEL)
         if wall.generate is True:
             LEVEL += 1
+    # if p2.body[0] == f.pos:
+    #     f.reset()
+    #     eaten2 = True
+    #     SCORE += 1
+    #     wall.regenerateWalls(SCORE,LEVEL)
+    #     if wall.generate is True:
+    #         LEVEL += 1
     
-    if player.check_fail():
+    if p1.check_fail() is True or p2.check_fail() is True:
         if SCORE > HIGHSCORE:
             HIGHSCORE = SCORE
-        player.reset()
+        p1.reset()
+        p2.reset()
         wall.reset()
         menu = Menu()
         menu.draw(screen,DARKRED,SCORE,HIGHSCORE)
