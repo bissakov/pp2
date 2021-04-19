@@ -1,11 +1,13 @@
 import sys
 import pygame
+import pickle
 from variables import *
 
 class Menu(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.in_menu = True
+        self.load_data = False
         self.rect = pygame.Rect(550,372,180,57)
         self.start = 1
 
@@ -26,7 +28,7 @@ class Menu(pygame.sprite.Sprite):
             self.rect.w = 130
             self.rect.x = (1280 - self.rect.w) / 2
 
-    def draw(self,surface,color,SCORE,HIGHSCORE):
+    def draw(self,surface,color,SCORE):
         while self.in_menu:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -36,10 +38,13 @@ class Menu(pygame.sprite.Sprite):
                     if event.key == pygame.K_RETURN:
                         if self.rect.midtop[1] >= 372 and self.rect.midtop[1] < 452:
                             self.in_menu = False
+                            self.load_data = False
                         elif self.rect.midtop[1] >= 452 and self.rect.midtop[1] < 532:
                             self.in_menu = False
+                            self.load_data = True
                         else:
                             self.in_menu = False
+                            self.load_data = False
                             sys.exit()
                     if event.key == pygame.K_DOWN:
                         self.rect.move_ip(0,80)
@@ -54,8 +59,6 @@ class Menu(pygame.sprite.Sprite):
             surface.fill(color)
 
             if color == DARKRED:
-                highscore = "Highscore           " + str(HIGHSCORE)
-                self.menuAnnotations(surface,highscore,100,YELLOW,48)
                 score = "Current Score     " + str(SCORE)
                 self.menuAnnotations(surface,score,170,YELLOW,48)
 

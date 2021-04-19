@@ -1,6 +1,7 @@
 import sys
 import random
 import pygame as pg
+import pickle
 from player import Player
 from interface import Interface
 from collectable import Food
@@ -15,7 +16,6 @@ pg.display.set_caption("Snake")
 FPS = pg.time.Clock()
 
 SCORE = 0
-HIGHSCORE = 0
 LEVEL = 1
 
 p1 = Player(LEVEL)
@@ -25,12 +25,16 @@ f = Food(LEVEL)
 wall = Wall()
 menu = Menu()
 
-food = pg.sprite.Group()
-food.add(f)
+menu.draw(screen,BLACK,SCORE)
 
-
-
-menu.draw(screen,BLACK,SCORE,HIGHSCORE)
+if menu.load_data:
+    load_file = open("save.dat","rb")
+    p1 = pickle.load(load_file)
+    p2 = pickle.load(load_file)
+    f = pickle.load(load_file)
+    wall = pickle.load(load_file)
+    SCORE = pickle.load(load_file)
+    LEVEL = pickle.load(load_file)
 
 eaten1 = False
 eaten2 = False
@@ -46,8 +50,16 @@ while not done:
 
     all_keys = pg.key.get_pressed()
     if all_keys[pg.K_LCTRL] and all_keys[pg.K_s]:
-        f2 = open("save.txt", "w")
-        f2.write(str(p1.body) + "\n" + str(p1.direction) + "\n" + str(f.pos) + "\n")
+        # f2 = open("save.txt", "w")
+        # f2.write(str(p1.body) + "\n" + str(p1.direction) + "\n" + str(f.pos) + "\n")
+        save_file = open("save.dat","wb")
+        pickle.dump(p1,save_file)
+        pickle.dump(p2,save_file)
+        pickle.dump(f,save_file)
+        pickle.dump(wall,save_file)
+        pickle.dump(SCORE,save_file)
+        pickle.dump(LEVEL,save_file)
+        save_file.close()
 
     
     eaten1 = False
@@ -69,22 +81,28 @@ while not done:
     screen.fill((0, 0, 0))
     wall.draw(screen)
     inteface.draw(screen, SCORE, LEVEL)
-        
+
     f.draw(screen)
     p1.draw(screen,eaten1,DARKBLUE)
     #p2.draw(screen,eaten2,DARKRED)
     
     if p1.check_fail(LEVEL) is True:# or p2.check_fail() is True:
-        if SCORE > HIGHSCORE:
-            HIGHSCORE = SCORE
+        LEVEL = 1
+        SCORE = 0
         p1.reset(LEVEL)
         p2.reset(LEVEL)
         wall.reset()
-        menu = Menu()
-        menu.draw(screen,DARKRED,SCORE,HIGHSCORE)
-        SCORE = 0
-        LEVEL = 1
         f.reset(LEVEL)
+        menu = Menu()
+        menu.draw(screen,DARKRED,SCORE)
+        if menu.load_data:
+            load_file = open("save.dat","rb")
+            p1 = pickle.load(load_file)
+            p2 = pickle.load(load_file)
+            f = pickle.load(load_file)
+            wall = pickle.load(load_file)
+            SCORE = pickle.load(load_file)
+            LEVEL = pickle.load(load_file)
 
     pg.display.flip()
     FPS.tick(60)

@@ -76,7 +76,7 @@ class Player(pygame.sprite.Sprite):
             self.gameover = True
 
         if lvl > 1:
-            for i in range(len(levels[lvl-1])):
+            for i in range(len(levels[lvl-2])):
                 if self.body[0] == levels[lvl-2][i]:
                     self.gameover = True
 
