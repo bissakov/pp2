@@ -14,19 +14,21 @@ screen = pg.display.set_mode((1280, 960))
 pg.display.set_caption("Snake")
 FPS = pg.time.Clock()
 
-p1 = Player()
-p2 = Player()
+SCORE = 0
+HIGHSCORE = 0
+LEVEL = 1
+
+p1 = Player(LEVEL)
+p2 = Player(LEVEL)
 inteface = Interface()
-f = Food()
+f = Food(LEVEL)
 wall = Wall()
 menu = Menu()
 
 food = pg.sprite.Group()
 food.add(f)
 
-SCORE = 0
-HIGHSCORE = 0
-LEVEL = 1
+
 
 menu.draw(screen,BLACK,SCORE,HIGHSCORE)
 
@@ -47,42 +49,42 @@ while not done:
         f2 = open("save.txt", "w")
         f2.write(str(p1.body) + "\n" + str(p1.direction) + "\n" + str(f.pos) + "\n")
 
-    screen.fill((0, 0, 0))
-
-    f.draw(screen)
-    p1.draw(screen,eaten1,DARKBLUE)
-    #p2.draw(screen,eaten2,DARKRED)
+    
     eaten1 = False
     eaten2 = False
-
-    wall.draw(screen)
-    inteface.draw(screen, SCORE, LEVEL)
     
+    # if p1.body[0] == f.pos:
+    #     f.reset(LEVEL)
+    #     eaten1 = True
+    #     SCORE += 1
+        
     if p1.body[0] == f.pos:
-        f.reset()
+        f.reset(LEVEL)
         eaten1 = True
         SCORE += 1
         wall.regenerateWalls(SCORE,LEVEL)
-        if wall.generate is True:
+        if wall.generate is True and LEVEL < 3:
             LEVEL += 1
-    # if p2.body[0] == f.pos:
-    #     f.reset()
-    #     eaten2 = True
-    #     SCORE += 1
-    #     wall.regenerateWalls(SCORE,LEVEL)
-    #     if wall.generate is True:
-    #         LEVEL += 1
+
+    screen.fill((0, 0, 0))
+    wall.draw(screen)
+    inteface.draw(screen, SCORE, LEVEL)
+        
+    f.draw(screen)
+    p1.draw(screen,eaten1,DARKBLUE)
+    #p2.draw(screen,eaten2,DARKRED)
     
-    if p1.check_fail() is True or p2.check_fail() is True:
+    if p1.check_fail(LEVEL) is True:# or p2.check_fail() is True:
         if SCORE > HIGHSCORE:
             HIGHSCORE = SCORE
-        p1.reset()
-        p2.reset()
+        p1.reset(LEVEL)
+        p2.reset(LEVEL)
         wall.reset()
         menu = Menu()
         menu.draw(screen,DARKRED,SCORE,HIGHSCORE)
         SCORE = 0
-        LEVEL = 0
+        LEVEL = 1
+        f.reset(LEVEL)
 
     pg.display.flip()
     FPS.tick(60)

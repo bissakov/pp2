@@ -6,14 +6,9 @@ from pygame.math import Vector2
 from variables import *
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self,lvl):
         super().__init__()
-        self.x = random.choice(range(X_OFFSET + 32, WIDTH, TILESIZE)) / TILESIZE
-        self.y = random.choice(range(Y_OFFSET + 32, HEIGHT, TILESIZE)) / TILESIZE
-        self.rect = pygame.Rect(self.x + 1,self.y + 1,30,30)
-        self.body = [Vector2(self.x,self.y)]
-        self.direction = Vector2(0,0)
-        self.gameover = False
+        self.reset(lvl)
 
     def move(self,event,s):
         if s == "player1":
@@ -73,24 +68,29 @@ class Player(pygame.sprite.Sprite):
             pygame.draw.rect(surface, color, self.rect)
         time.sleep(.1)
 
-    def check_fail(self):
+    def check_fail(self,lvl):
         self.gameover = False
         if self.body[0].x < 2 or self.body[0].x >= 38:
             self.gameover = True
         if self.body[0].y < 2 or self.body[0].y > 27:
             self.gameover = True
-        
-        for block in self.body[1:]:
-            if block == self.body[0]:
-                self.gameover = True
+
+        if lvl > 1:
+            for i in range(len(levels[lvl-1])):
+                if self.body[0] == levels[lvl-2][i]:
+                    self.gameover = True
+
+        if len(self.body) > 2:
+            for block in self.body[1:]:
+                if block == self.body[0]:
+                    self.gameover = True
 
         return self.gameover
 
-    def reset(self):
-        self.x = random.choice(range(X_OFFSET, WIDTH + TILESIZE, TILESIZE)) / TILESIZE
-        self.y = random.choice(range(Y_OFFSET, HEIGHT + TILESIZE, TILESIZE)) / TILESIZE
-        self.rect = pygame.Rect(self.x + 1,self.y + 1,30,30)
-        self.body = [Vector2(self.x,self.y)]
+    def reset(self,lvl):
+        self.pos = random.choice(food_ranges[lvl-1])
+        self.rect = pygame.Rect(self.pos.x * 32 + 1,self.pos.y * 32 + 1,30,30)
+        self.body = [Vector2(self.pos.x,self.pos.y)]
         self.direction = Vector2(0,0)
         self.gameover = False
                 

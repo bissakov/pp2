@@ -4,7 +4,7 @@ from variables import *
 class Interface(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.font = pg.font.Font("arial.ttf", 36)
+        self.font = pg.font.Font("assets/arial.ttf", 36)
 
     def draw_grid(self, surface):
         for x in range(X_OFFSET, WIDTH + X_OFFSET + 1, TILESIZE):

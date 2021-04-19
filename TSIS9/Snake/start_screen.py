@@ -10,7 +10,7 @@ class Menu(pygame.sprite.Sprite):
         self.start = 1
 
     def menuAnnotations(self,surface,s,y,color,size):
-        font = pygame.font.Font("arial.ttf", size)
+        font = pygame.font.Font("assets/arial.ttf", size)
         text = font.render(s, True, color)
         text_rect = text.get_rect(center=(640, y))
         surface.blit(text,text_rect)
