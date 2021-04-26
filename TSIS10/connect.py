@@ -6,11 +6,11 @@ def connect():
     conn = None
     try:
         params = config()
-        print('Connecting to the PostgreSQL database...')
+        print("Connecting to the PostgreSQL database...")
         conn = psycopg2.connect(**params)
         cur = conn.cursor()
-        print('PostgreSQL database version:')
-        cur.execute('SELECT version()')
+        print("PostgreSQL database version:")
+        cur.execute("SELECT version()")
 
         db_version = cur.fetchone()
         print(db_version)
@@ -20,4 +20,4 @@ def connect():
     finally:
         if conn is not None:
             conn.close()
-            print('Database connection closed.')
+            print("Database connection closed.")
